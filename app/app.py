@@ -1,398 +1,126 @@
-C     ] Logs for gutsignal.streamlit.app/
-
-────────────────────────────────────────────────────────────────────────────────────────
-
-[10:34:35] 🚀 Starting up repository: 'gutsignal', branch: 'main', main module: 'app/app.py'
-
-[10:34:35] 🐙 Cloning repository...
-
-[10:34:36] 🐙 Cloning into '/mount/src/gutsignal'...
-
-[10:34:37] 🐙 Cloned repository!
-
-[10:34:37] 🐙 Pulling code changes from Github...
-
-[10:34:37] 📦 Processing dependencies...
-
-
-──────────────────────────────────────── uv ───────────────────────────────────────────
-
-
-Using uv pip install.
-
-Using Python 3.12.16 environment at: /home/adminuser/venv
-
-Resolved 40 packages in 359ms
-
-Downloading scipy (33.7MiB)
-
-Downloading pydeck (10.9MiB)
-
-Downloading pillow (6.8MiB)
-
-Downloading numpy (15.9MiB)
-
-Downloading streamlit (10.7MiB)
-
-Downloading pandas (12.1MiB)
-
-Downloading pyarrow (52.5MiB)
-
-Downloading scikit-learn (12.5MiB)
-
- Downloaded pillow
-
- Downloaded streamlit
-
- Downloaded pydeck
-
- Downloaded scikit-learn
-
- Downloaded pandas
-
- Downloaded numpy
-
- Downloaded scipy
-
- Downloaded pyarrow
-
-Prepared 40 packages in 887ms
-
-Uninstalled 1 package in 2ms
-
-Installed 40 packages in 69ms
-
- + altair==6.3.0
-
- + anyio==4.16.0
-
- + attrs==26.1.0
-
- - certifi==2026.10.23
-
- + certifi==2026.11.20
-
- + charset-normalizer==3.5.2
-
- + click==8.5.1
-
- +[2026-11-21 10:34:39.052025]  cloudpickle==3.1.3
-
- + h11==0.16.0
-
- + idna==3.20
-
- + itsdangerous==2.2.0
-
- + jinja2==3.1.6
-
- + joblib[2026-11-21 10:34:39.052272] ==1.6.0
-
- + jsonschema==4.26.0
-
- + jsonschema-specifications==2025.9.1
-
- + markupsafe==3.0.4
-
- + narwhals==2.29.0[2026-11-21 10:34:39.052489] 
-
- + numpy==2.4.6
-
- + packaging==26.3
-
- + pandas==2.2.3
-
- + pillow==13.0[2026-11-21 10:34:39.052629] .0
-
- + protobuf==7.36.2
-
- + pyarrow==26.0.1
-
- + pydeck==0.9.3
-
- + python-dateutil==4[2026-11-21 10:34:39.052832] .0.0
-
- + python-multipart==0.0.34
-
- + pytz==2026.6
-
- + referencing==0.37.0
-
- + requests==2.[2026-11-21 10:34:39.052981] 34.2
-
- + rpds-py==2026.9.1
-
- + scikit-learn==1.6.1
-
- + scipy==1.18.1
-
- [2026-11-21 10:34:39.053125] + starlette==1.10.0
-
- + streamlit==1.67.0
-
- + threadpoolctl==3.8.0
-
- + typing-extensions[2026-11-21 10:34:39.053256] ==4.16.0
-
- + tzdata==2026.6
-
- + urllib3==2.8.0
-
- + uvicorn==0.54.0
-
- + watchdog==[2026-11-21 10:34:39.053368] 7.1.0
-
- + websockets==17.4
-
-Collecting certifi>=2026.10.19
-
-  Downloading certifi-2026.11.20-py3-none-any.whl.metadata (2.5 kB)
-
-Downloading certifi-2026.11.20-py3-none-any.whl (127 kB)
-
-Installing collected packages: certifi
-
-  Attempting uninstall: certifi
-
-    Found existing installation: certifi 2026.11.20
-
-    Uninstalling certifi-2026.11.20:
-
-      Successfully uninstalled certifi-2026.11.20
-
-Successfully installed certifi-2026.11.20
-
-Collecting pip>=26.2.2
-
-  Downloading pip-26.3-py3-none-any.whl.metadata (4.6 kB)
-
-Downloading pip-26.3-py3-none-any.whl (2.0 MB)
-
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 76.3 MB/s  0:00:00[2026-11-21 10:34:40.749549] 
-
-Installing collected packages: pip
-
-  Attempting uninstall: pip
-
-    Found existing installation: pip 26.2.2
-
-    Uninstalling pip-26.2.2:
-
-      Successfully uninstalled pip-26.2.2
-
-Successfully installed pip-26.3
-
-Checking if Streamlit is installed
-
-Found Streamlit version 1.67.0 in the environment
-
-Detected pyarrow 26.0.1 (known segfault, apache/arrow#50471). Replacing with pyarrow<25.
-
-Using uv pip install.
-
-Using Python 3.12.16 environment at: /home/adminuser/venv
-
-Resolved 1 package in 91ms
-
-Downloading pyarrow (46.6MiB)
-
- Downloaded pyarrow
-
-Prepared 1 package in 730ms
-
-Uninstalled 1 package in 16ms
-
-Installed 1 package in 29ms
-
- - pyarrow==26.0.1[2026-11-21 10:34:44.907467] 
-
- + pyarrow==24.0.0
-
-Installing rich for an improved exception logging
-
-Using uv pip install.
-
-Using Python 3.12.16 environment at: /home/adminuser/venv
-
-Resolved 4 packages in 155ms
-
-Downloading pygments (1.2MiB)
-
- Downloaded pygments
-
-Prepared 4 packages in 155ms
-
-Installed 4 packages in 17ms
-
- + markdown-it-py==4.3.0
-
- [2026-11-21 10:34:45.549051] + mdurl==0.1.2
-
- + pygments==2.21.0
-
- + rich==15.0.0
-
-
-────────────────────────────────────────────────────────────────────────────────────────
-
-
-[10:34:45] 🐍 Python dependencies were installed from /mount/src/gutsignal/requirements.txt using uv.
-
-Check if streamlit is installed
-
-Streamlit is already installed
-
-Collecting certifi>=2026.10.19
-
-  Downloading certifi-2026.11.20-py3-none-any.whl.metadata (2.5 kB)
-
-Downloading certifi-2026.11.20-py3-none-any.whl (127 kB)
-
-Installing collected packages: certifi
-
-  Attempting uninstall: certifi
-
-    Found existing installation: certifi 2026.11.20
-
-    Uninstalling certifi-2026.11.20:
-
-      Successfully uninstalled certifi-2026.11.20
-
-Successfully installed certifi-2026.11.20
-
-Collecting pip>=26.2.2
-
-  Downloading pip-26.3-py3-none-any.whl.metadata (4.6 kB)
-
-Downloading pip-26.3-py3-none-any.whl (2.0 MB)
-
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 98.0 MB/s  0:00:00[2026-11-21 10:34:47.708147] 
-
-Installing collected packages: pip
-
-  Attempting uninstall: pip
-
-    Found existing installation: pip 26.3
-
-    Uninstalling pip-26.3:
-
-      Successfully uninstalled pip-26.3
-
-Successfully installed pip-26.3
-
-[10:34:49] 📦 Processed dependencies!
-
-2026-11-21 10:34:51.617 Uvicorn server started on :::8501
-
-
-
-
-[10:45:37] 🐙 Pulling code changes from Github...
-
-2026-11-21 10:45:37.664 Script compilation error
-
-Traceback (most recent call last):
-
-  File "/home/adminuser/venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 754, in _run_script
-
-    code = self._script_cache.get_bytecode(script_path)
-
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-  File "/home/adminuser/venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/script_cache.py", line 72, in get_bytecode
-
-    filebody = magic.add_magic(filebody, script_path)
-
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-  File "/home/adminuser/venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/magic.py", line 44, in add_magic
-
-    tree = ast.parse(code, script_path, "exec")
-
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-  File "/usr/local/lib/python3.12/ast.py", line 52, in parse
-
-    return compile(source, filename, mode, flags,
-
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-  File "/mount/src/gutsignal/app/app.py", line 1
-
     pivot = pivot.fillna(0.0)
+    sample_ids = [str(x) for x in pivot.index.tolist()]
+    pivot.columns.name = None
+    return pivot, sample_ids, len(set(recognised[msp_col])), missing, len(pivot)
 
-IndentationError: unexpected indent
 
-[10:45:37] 📦 Processing dependencies...
+st.title("🧬 GutSignal")
+st.subheader("Gut microbiome research-model explorer")
+st.write(
+    "Upload microbial abundance data in either wide or long CSV format. "
+    "The app maps recognised MSP identifiers to the features used by the trained model."
+)
+st.warning(
+    "Research prototype only. GutSignal does not diagnose colorectal cancer "
+    "or determine an individual's clinical risk."
+)
 
-[10:45:37] 📦 Processed dependencies!
+with st.expander("CSV formats accepted", expanded=True):
+    st.markdown(
+        "**Wide format:** one row per sample; MSP identifiers are column names. "
+        "An optional `sample_id` or `patient_id` column can identify samples."
+    )
+    st.code(
+        "sample_id,msp_0001,msp_0002,msp_0003\n"
+        "P001,0.12,0.00,0.35\n"
+        "P002,0.04,0.21,0.00",
+        language="csv"
+    )
+    st.markdown(
+        "**Long format:** one row per sample–MSP pair; requires `msp_id` and "
+        "`abundance`. Add `sample_id` (or `patient_id`) for multiple samples. "
+        "If no sample ID column is supplied, the file is treated as one sample."
+    )
+    st.code(
+        "sample_id,msp_id,abundance\n"
+        "P001,msp_0001,0.12\n"
+        "P001,msp_0002,0.00\n"
+        "P002,msp_0001,0.04",
+        language="csv"
+    )
 
-[10:45:39] 🔄 Updated app!
+st.caption(
+    "Age and sex are not used by this trained model. Predictions depend only "
+    "on the microbial abundance features."
+)
 
-2026-11-21 10:47:41.358 Script compilation error
+uploaded_file = st.file_uploader("Upload microbiome CSV", type=["csv"])
 
-Traceback (most recent call last):
+if uploaded_file is not None:
+    try:
+        raw = pd.read_csv(uploaded_file)
+        if raw.empty:
+            raise ValueError("The uploaded CSV is empty.")
 
-  File "/home/adminuser/venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 754, in _run_script
+        cols_lower = {str(c).strip().lower() for c in raw.columns}
+        is_long = {"msp_id", "abundance"}.issubset(cols_lower)
 
-    code = self._script_cache.get_bytecode(script_path)
+        if is_long:
+            X_input, sample_ids, matched_count, missing_features, sample_count = (
+                prepare_long(raw, input_features)
+            )
+            detected_format = "Long"
+        else:
+            X_input, sample_ids, matched_count, missing_features, sample_count = (
+                prepare_wide(raw, input_features)
+            )
+            detected_format = "Wide"
 
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        st.success(f"{detected_format}-format CSV recognised.")
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Samples found", sample_count)
+        c2.metric("Recognised MSPs", f"{matched_count:,} / {len(input_features):,}")
+        c3.metric("Missing model MSPs", f"{len(missing_features):,}")
 
-  File "/home/adminuser/venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/script_cache.py", line 72, in get_bytecode
+        if missing_features:
+            st.warning(
+                f"{len(missing_features)} model MSP features are absent from this file. "
+                "They will be set to zero only if the uploaded dataset represents "
+                "a complete feature profile and absent MSPs genuinely mean undetected. "
+                "Do not continue if the file is truncated or uses a different feature definition."
+            )
+            confirm_missing = st.checkbox(
+                "I confirm that absent model MSPs represent undetected/zero-abundance features."
+            )
+        else:
+            confirm_missing = True
 
-    filebody = magic.add_magic(filebody, script_path)
+        st.write("Processed model-input preview:")
+        st.dataframe(X_input.head(), use_container_width=True)
 
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        if st.button(
+            "Analyse uploaded samples",
+            type="primary",
+            disabled=not confirm_missing
+        ):
+            predictions = model.predict(X_input[input_features])
+            probabilities = model.predict_proba(X_input[input_features])
 
-  File "/home/adminuser/venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/magic.py", line 44, in add_magic
+            results = pd.DataFrame({
+                "sample_id": sample_ids,
+                "model_classification": [
+                    "CRC-like" if p == 1 else "Healthy-like" for p in predictions
+                ],
+                "healthy_class_score_percent": np.round(probabilities[:, 0] * 100, 2),
+                "crc_class_score_percent": np.round(probabilities[:, 1] * 100, 2),
+            })
 
-    tree = ast.parse(code, script_path, "exec")
+            st.divider()
+            st.header("Research-model results")
+            st.dataframe(results, use_container_width=True)
+            st.download_button(
+                "Download prediction results",
+                data=results.to_csv(index=False).encode("utf-8"),
+                file_name="GutSignal_predictions.csv",
+                mime="text/csv"
+            )
+            st.info(
+                "Scores are model-estimated class probabilities, not an individual's "
+                "probability of having cancer. Results are research outputs, not "
+                "clinical diagnoses. Input data should use compatible MSP definitions "
+                "and abundance processing with the training dataset."
+            )
 
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    except Exception as exc:
+        st.error(f"Could not process this CSV: {exc}")
 
-  File "/usr/local/lib/python3.12/ast.py", line 52, in parse
-
-    return compile(source, filename, mode, flags,
-
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-  File "/mount/src/gutsignal/app/app.py", line 1
-
-    pivot = pivot.fillna(0.0)
-
-IndentationError: unexpected indent
-
-2026-11-21 10:48:05.645 Script compilation error
-
-Traceback (most recent call last):
-
-  File "/home/adminuser/venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/script_runner.py", line 754, in _run_script
-
-    code = self._script_cache.get_bytecode(script_path)
-
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-  File "/home/adminuser/venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/script_cache.py", line 72, in get_bytecode
-
-    filebody = magic.add_magic(filebody, script_path)
-
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-  File "/home/adminuser/venv/lib/python3.12/site-packages/streamlit/runtime/scriptrunner/magic.py", line 44, in add_magic
-
-    tree = ast.parse(code, script_path, "exec")
-
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-  File "/usr/local/lib/python3.12/ast.py", line 52, in parse
-
-    return compile(source, filename, mode, flags,
-
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-  File "/mount/src/gutsignal/app/app.py", line 1
-
-    pivot = pivot.fillna(0.0)
-
-IndentationError: unexpected indent
