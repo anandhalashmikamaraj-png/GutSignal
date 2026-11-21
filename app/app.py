@@ -1,272 +1,125 @@
-
-import streamlit as st
-import pandas as pd
-import numpy as np
-import os
-import json
-import joblib
-
-from sklearn.base import BaseEstimator, TransformerMixin
+    pivot = pivot.fillna(0.0)
+    sample_ids = [str(x) for x in pivot.index.tolist()]
+    pivot.columns.name = None
+    return pivot, sample_ids, len(set(recognised[msp_col])), missing, len(pivot)
 
 
-# Required for loading the saved model
-class PrevalenceFilter(BaseEstimator, TransformerMixin):
-
-    def __init__(self, threshold=0.05):
-        self.threshold = threshold
-
-    def fit(self, X, y=None):
-        prevalence = (X > 0).mean(axis=0)
-        self.selected_features_ = prevalence[
-            prevalence >= self.threshold
-        ].index.tolist()
-        return self
-
-    def transform(self, X):
-        return X.loc[:, self.selected_features_]
-
-
-# Application configuration
-st.set_page_config(
-    page_title="GutSignal",
-    page_icon="🧬",
-    layout="wide"
-)
-
-# Paths work both locally and on Streamlit Cloud
-BASE_DIR = os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__))
-)
-
-MODEL_DIR = os.path.join(BASE_DIR, "models")
-
-
-@st.cache_resource
-def load_model():
-
-    model = joblib.load(
-        os.path.join(MODEL_DIR, "gutsignal_random_forest.pkl")
-    )
-
-    with open(
-        os.path.join(MODEL_DIR, "input_features.json")
-    ) as f:
-        features = json.load(f)
-
-    return model, features
-
-
-try:
-    model, input_features = load_model()
-
-except Exception as e:
-    st.error(f"Could not load the trained model: {e}")
-    st.stop()
-
-
-# Application interface
 st.title("🧬 GutSignal")
-
-st.subheader(
-    "AI-Powered Gut Microbiome Assessment"
-)
-
+st.subheader("Gut microbiome research-model explorer")
 st.write(
-    "Explore your gut microbiome using a machine-learning "
-    "model trained on public colorectal cancer and "
-    "healthy-control microbiome cohorts."
+    "Upload microbial abundance data in either wide or long CSV format. "
+    "The app maps recognised MSP identifiers to the features used by the trained model."
 )
-
 st.warning(
-    "Research prototype only. This model does not diagnose "
-    "colorectal cancer or determine an individual's clinical risk."
+    "Research prototype only. GutSignal does not diagnose colorectal cancer "
+    "or determine an individual's clinical risk."
 )
 
-st.divider()
-
-
-# User information
-st.header("1. Your Information")
-
-col1, col2 = st.columns(2)
-
-with col1:
-    age = st.number_input(
-        "Age",
-        min_value=18,
-        max_value=100,
-        value=25
+with st.expander("CSV formats accepted", expanded=True):
+    st.markdown(
+        "**Wide format:** one row per sample; MSP identifiers are column names. "
+        "An optional `sample_id` or `patient_id` column can identify samples."
     )
-
-with col2:
-    sex = st.selectbox(
-        "Sex",
-        ["Prefer not to say", "Female", "Male", "Other"]
+    st.code(
+        "sample_id,msp_0001,msp_0002,msp_0003\n"
+        "P001,0.12,0.00,0.35\n"
+        "P002,0.04,0.21,0.00",
+        language="csv"
+    )
+    st.markdown(
+        "**Long format:** one row per sample–MSP pair; requires `msp_id` and "
+        "`abundance`. Add `sample_id` (or `patient_id`) for multiple samples. "
+        "If no sample ID column is supplied, the file is treated as one sample."
+    )
+    st.code(
+        "sample_id,msp_id,abundance\n"
+        "P001,msp_0001,0.12\n"
+        "P001,msp_0002,0.00\n"
+        "P002,msp_0001,0.04",
+        language="csv"
     )
 
 st.caption(
-    "Age and sex are collected for the profile only. "
-    "They are not used by the trained prediction model."
+    "Age and sex are not used by this trained model. Predictions depend only "
+    "on the microbial abundance features."
 )
 
-st.divider()
-
-
-# Upload microbiome data
-st.header("2. Upload Your Gut Microbiome Data")
-
-st.write(
-    "Upload a CSV containing two columns: msp_id and abundance. "
-    "Use the same MSP identifiers and abundance processing "
-    "format as the GutSignal training dataset. Include all "
-    "2,425 model input MSPs, using zero for undetected species."
-)
-
-uploaded_file = st.file_uploader(
-    "Choose your microbiome CSV",
-    type=["csv"]
-)
-
+uploaded_file = st.file_uploader("Upload microbiome CSV", type=["csv"])
 
 if uploaded_file is not None:
-
     try:
-        data = pd.read_csv(uploaded_file)
+        raw = pd.read_csv(uploaded_file)
+        if raw.empty:
+            raise ValueError("The uploaded CSV is empty.")
 
-        required_columns = {"msp_id", "abundance"}
+        cols_lower = {str(c).strip().lower() for c in raw.columns}
+        is_long = {"msp_id", "abundance"}.issubset(cols_lower)
 
-        if not required_columns.issubset(data.columns):
-
-            st.error(
-                "Your CSV must contain columns named "
-                "'msp_id' and 'abundance'."
+        if is_long:
+            X_input, sample_ids, matched_count, missing_features, sample_count = (
+                prepare_long(raw, input_features)
             )
-
+            detected_format = "Long"
         else:
+            X_input, sample_ids, matched_count, missing_features, sample_count = (
+                prepare_wide(raw, input_features)
+            )
+            detected_format = "Wide"
 
-            data["msp_id"] = (
-                data["msp_id"].astype(str).str.strip()
+        st.success(f"{detected_format}-format CSV recognised.")
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Samples found", sample_count)
+        c2.metric("Recognised MSPs", f"{matched_count:,} / {len(input_features):,}")
+        c3.metric("Missing model MSPs", f"{len(missing_features):,}")
+
+        if missing_features:
+            st.warning(
+                f"{len(missing_features)} model MSP features are absent from this file. "
+                "They will be set to zero only if the uploaded dataset represents "
+                "a complete feature profile and absent MSPs genuinely mean undetected. "
+                "Do not continue if the file is truncated or uses a different feature definition."
+            )
+            confirm_missing = st.checkbox(
+                "I confirm that absent model MSPs represent undetected/zero-abundance features."
+            )
+        else:
+            confirm_missing = True
+
+        st.write("Processed model-input preview:")
+        st.dataframe(X_input.head(), use_container_width=True)
+
+        if st.button(
+            "Analyse uploaded samples",
+            type="primary",
+            disabled=not confirm_missing
+        ):
+            predictions = model.predict(X_input[input_features])
+            probabilities = model.predict_proba(X_input[input_features])
+
+            results = pd.DataFrame({
+                "sample_id": sample_ids,
+                "model_classification": [
+                    "CRC-like" if p == 1 else "Healthy-like" for p in predictions
+                ],
+                "healthy_class_score_percent": np.round(probabilities[:, 0] * 100, 2),
+                "crc_class_score_percent": np.round(probabilities[:, 1] * 100, 2),
+            })
+
+            st.divider()
+            st.header("Research-model results")
+            st.dataframe(results, use_container_width=True)
+            st.download_button(
+                "Download prediction results",
+                data=results.to_csv(index=False).encode("utf-8"),
+                file_name="GutSignal_predictions.csv",
+                mime="text/csv"
+            )
+            st.info(
+                "Scores are model-estimated class probabilities, not an individual's "
+                "probability of having cancer. Results are research outputs, not "
+                "clinical diagnoses. Input data should use compatible MSP definitions "
+                "and abundance processing with the training dataset."
             )
 
-            data["abundance"] = pd.to_numeric(
-                data["abundance"],
-                errors="coerce"
-            )
-
-            if data["msp_id"].duplicated().any():
-
-                st.error("Duplicate MSP identifiers found.")
-
-            elif data["abundance"].isna().any():
-
-                st.error("Abundance values must be numeric.")
-
-            elif not np.isfinite(data["abundance"]).all():
-
-                st.error("Abundance values must be finite.")
-
-            elif (data["abundance"] < 0).any():
-
-                st.error("Negative abundance values are not allowed.")
-
-            else:
-
-                sample_data = data.set_index(
-                    "msp_id"
-                )["abundance"]
-
-                matching_features = [
-                    feature for feature in input_features
-                    if feature in sample_data.index
-                ]
-
-                missing_features = [
-                    feature for feature in input_features
-                    if feature not in sample_data.index
-                ]
-
-                unknown_features = (
-                    set(sample_data.index) - set(input_features)
-                )
-
-                st.write("Uploaded data preview:")
-                st.dataframe(data.head())
-
-                st.write(
-                    f"Recognised MSPs: "
-                    f"{len(matching_features)} / "
-                    f"{len(input_features)}"
-                )
-
-                if unknown_features:
-                    st.warning(
-                        f"{len(unknown_features)} unknown MSP "
-                        "identifiers will be ignored."
-                    )
-
-                if missing_features:
-
-                    st.error(
-                        f"{len(missing_features)} required MSPs "
-                        "are missing. Please provide all 2,425 "
-                        "model input MSPs, including zero values "
-                        "for undetected species."
-                    )
-
-                else:
-
-                    sample = pd.DataFrame(
-                        [[sample_data[feature]
-                          for feature in input_features]],
-                        columns=input_features
-                    )
-
-                    if st.button(
-                        "Analyse My Microbiome",
-                        type="primary"
-                    ):
-
-                        prediction = model.predict(sample)[0]
-
-                        probabilities = model.predict_proba(
-                            sample
-                        )[0]
-
-                        st.divider()
-
-                        st.header("3. Your Research Results")
-
-                        if prediction == 1:
-                            st.error(
-                                "CRC-like microbiome profile"
-                            )
-                        else:
-                            st.success(
-                                "Healthy-like microbiome profile"
-                            )
-
-                        col1, col2 = st.columns(2)
-
-                        col1.metric(
-                            "Healthy-class model score",
-                            f"{probabilities[0] * 100:.2f}%"
-                        )
-
-                        col2.metric(
-                            "CRC-class model score",
-                            f"{probabilities[1] * 100:.2f}%"
-                        )
-
-                        st.info(
-                            "These are model-estimated class "
-                            "probabilities, not an individual's "
-                            "probability of having cancer. "
-                            "This research model is not a "
-                            "clinical diagnostic tool."
-                        )
-
-    except Exception as e:
-
-        st.error(
-            f"Error processing uploaded file: {e}"
-        )
+    except Exception as exc:
+        st.error(f"Could not process this CSV: {exc}")
